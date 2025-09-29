@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần mềm ký cam kết chống ma túy</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="spherical-bg.css"> -->
+</head>
+<body>
+    <!-- Toggle Form Button -->
+    <button id="toggleFormBtn" class="toggle-form-btn">Ẩn Form</button>
+    
+    <div class="container" id="mainContainer">
+        <header>
+            <div class="header-content">
+                <img src="logo-cong-an.jpg" alt="Logo Công An" class="logo">
+                <div class="header-text">
+                    <h1>CAM KẾT CHỐNG MA TÚY</h1>
+                    <p class="subtitle">Hệ thống ký cam kết và upload hình ảnh thể hiện</p>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="form-container">
+                <h2>Thông tin cá nhân</h2>
+                <form id="commitmentForm">
+                    <div class="input-group">
+                        <label for="fullName">Họ và tên *</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="idNumber">Số CCCD/CMND *</label>
+                        <input type="text" id="idNumber" name="idNumber" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="phone">Số điện thoại *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="address">Địa chỉ *</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+
+                    <div class="commitment-text">
+                        <h3>NỘI DUNG CAM KẾT</h3>
+                        <div class="commitment-content">
+                            <p>Tôi, <strong id="nameDisplay">[Họ và tên]</strong>, cam kết:</p>
+                            <ul>
+                                <li>Không mua bán, vận chuyển, tàng trữ các chất ma túy dưới mọi hình thức</li>
+                                <li>Không sử dụng, tổ chức sử dụng các chất ma túy</li>
+                                <li>Không tham gia vào các hoạt động liên quan đến ma túy</li>
+                                <li>Tích cực tuyên truyền, vận động người thân, bạn bè không sử dụng ma túy</li>
+                                <li>Báo cáo với cơ quan chức năng khi phát hiện các hoạt động liên quan đến ma túy</li>
+                            </ul>
+                            <p>Tôi hiểu rằng việc vi phạm cam kết này sẽ bị xử lý theo quy định của pháp luật.</p>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="proofImage">Upload hình ảnh thể hiện cam kết *</label>
+                        <input type="file" id="proofImage" name="proofImage" accept="image/*" required>
+                        <div class="file-info">
+                            <small>Định dạng: JPG, PNG, GIF. Kích thước tối đa: 5MB</small>
+                        </div>
+                    </div>
+
+                    <div class="preview-container" id="imagePreview" style="display: none;">
+                        <h4>Xem trước hình ảnh:</h4>
+                        <img id="previewImg" src="" alt="Preview">
+                    </div>
+
+                    <div class="input-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                            <span class="checkmark"></span>
+                            Tôi đã đọc và đồng ý với nội dung cam kết trên
+                        </label>
+                    </div>
+
+                    <div class="signature-section">
+                        <label for="digitalSignature">Chữ ký điện tử *</label>
+                        <canvas id="signatureCanvas" width="400" height="150"></canvas>
+                        <div class="signature-controls">
+                            <button type="button" id="clearSignature">Xóa chữ ký</button>
+                            <small>Vui lòng ký tên của bạn trong khung trên</small>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn">Gửi cam kết</button>
+                </form>
+            </div>
+
+            <div class="success-message" id="successMessage" style="display: none;">
+                <h3>✅ Cam kết đã được gửi thành công!</h3>
+                <p>Cảm ơn bạn đã tham gia cam kết chống ma túy. Thông tin của bạn đã được lưu trữ.</p>
+                <button onclick="window.print()" class="print-btn">In cam kết</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- <script src="spherical-bg.js"></script> -->
+    <script src="script.js"></script>
+</body>
+</html>

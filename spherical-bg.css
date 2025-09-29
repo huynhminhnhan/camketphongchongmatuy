@@ -1,0 +1,255 @@
+/* Spherical Image Background System */
+.spherical-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a1a2e 0%, #16213e 50%, #0f1419 100%);
+    perspective: 1000px;
+}
+
+.sphere-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    transform-style: preserve-3d;
+    animation: sphereRotate 60s linear infinite;
+    transform-origin: center center;
+    transform: translate(-50%, -50%);
+}
+
+/* Individual image planes on sphere surface */
+.image-plane {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.image-plane img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    filter: brightness(0.8) contrast(1.1);
+    transition: filter 0.3s ease;
+}
+
+.image-plane:hover {
+    opacity: 1;
+    transform: scale(1.2) !important;
+    z-index: 10;
+}
+
+.image-plane:hover img {
+    filter: brightness(1.2) contrast(1.3);
+}
+
+/* Different size variants for depth */
+.image-plane.small {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+}
+
+.image-plane.medium {
+    width: 50px;
+    height: 50px;
+    opacity: 0.6;
+}
+
+.image-plane.large {
+    width: 70px;
+    height: 70px;
+    opacity: 0.8;
+}
+
+/* Color tints for theme variations */
+.image-plane.theme-blue::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(102, 126, 234, 0.2);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.image-plane.theme-purple::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(118, 75, 162, 0.2);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.image-plane.theme-green::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(76, 175, 80, 0.2);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* Floating particles for atmosphere */
+.sphere-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: particleFloat 20s linear infinite;
+}
+
+.sphere-particle.large {
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    animation-duration: 30s;
+}
+
+.sphere-particle.small {
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    animation-duration: 15s;
+}
+
+/* Animations */
+@keyframes sphereRotate {
+    from {
+        transform: translate(-50%, -50%) rotateY(0deg) rotateX(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotateY(360deg) rotateX(0deg);
+    }
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateZ(-500px) rotateY(0deg);
+        opacity: 0;
+    }
+    10%, 90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateZ(500px) rotateY(360deg);
+        opacity: 0;
+    }
+}
+
+/* Pulsing effect for special images */
+@keyframes imagePulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+}
+
+.image-plane.pulse {
+    animation: imagePulse 4s ease-in-out infinite;
+}
+
+/* Glow effect for highlighted images */
+.image-plane.glow {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.image-plane.glow img {
+    filter: brightness(1.3) contrast(1.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-plane {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .image-plane.small {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .image-plane.medium {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .image-plane.large {
+        width: 52px;
+        height: 52px;
+    }
+    
+    .sphere-container {
+        animation-duration: 80s; /* Slower on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .image-plane {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .image-plane.small {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .image-plane.medium {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .image-plane.large {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Performance optimizations */
+.spherical-background * {
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+/* Alternative slower rotation for better performance */
+@media (prefers-reduced-motion: reduce) {
+    .sphere-container {
+        animation-duration: 120s;
+    }
+    
+    .image-plane {
+        transition: none;
+    }
+    
+    .sphere-particle {
+        animation: none;
+    }
+}

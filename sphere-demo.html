@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Spherical Background với Form Toggle</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: transparent;
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .demo-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s ease;
+        }
+        
+        .demo-container.hidden {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
+        
+        .demo-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .demo-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .control-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-blue {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-purple {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            color: white;
+        }
+        
+        .btn-green {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+        
+        .btn-special {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .toggle-form-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .toggle-form-btn.form-hidden {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .instructions li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .instructions li:before {
+            content: "✨ ";
+            margin-right: 10px;
+        }
+        
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-container {
+                padding: 10px;
+            }
+            
+            .demo-card {
+                padding: 20px;
+            }
+            
+            .demo-title {
+                font-size: 2em;
+            }
+            
+            .control-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="spherical-bg.css">
+</head>
+<body>
+    <!-- Toggle Form Button -->
+    <button id="toggleFormBtn" class="toggle-form-btn">Ẩn Demo</button>
+    
+    <div class="demo-container" id="demoContainer">
+        <div class="instructions">
+            <h3>🎯 Hướng dẫn sử dụng</h3>
+            <ul>
+                <li>Click nút "Ẩn Demo" ở góc phải để ẩn/hiện giao diện</li>
+                <li>Click ra ngoài vùng demo để tự động ẩn</li>
+                <li>Nhấn phím ESC để ẩn demo nhanh</li>
+                <li>Khi ẩn demo, bạn có thể ngắm quả cầu xoay ở giữa màn hình</li>
+                <li>Hover vào các hình ảnh trên quả cầu để tương tác</li>
+            </ul>
+        </div>
+        
+        <div class="demo-card">
+            <h1 class="demo-title">🌐 Spherical Background Demo</h1>
+            
+            <div class="stats-panel">
+                <div class="stat-card">
+                    <div class="stat-number" id="imageCount">140</div>
+                    <div class="stat-label">Hình ảnh</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">360°</div>
+                    <div class="stat-label">Xoay liên tục</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Particles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3D</div>
+                    <div class="stat-label">CSS Transform</div>
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <button class="btn btn-blue" onclick="sphericalBackground.changeTheme('blue')">
+                    🔵 Theme Xanh
+                </button>
+                <button class="btn btn-purple" onclick="sphericalBackground.changeTheme('purple')">
+                    🟣 Theme Tím
+                </button>
+                <button class="btn btn-green" onclick="sphericalBackground.changeTheme('green')">
+                    🟢 Theme Xanh Lá
+                </button>
+                <button class="btn btn-special" onclick="recreateSphere()">
+                    ✨ Tạo lại Sphere
+                </button>
+            </div>
+        </div>
+        
+        <div class="demo-card">
+            <h2>🎨 Tính năng nổi bật</h2>
+            <div style="text-align: left; line-height: 1.8;">
+                <p><strong>✅ Quả cầu ở giữa màn hình:</strong> Sphere luôn xoay ở trung tâm viewport</p>
+                <p><strong>✅ Form ẩn/hiện thông minh:</strong> Click ra ngoài hoặc ESC để ẩn</p>
+                <p><strong>✅ Tọa độ cầu chính xác:</strong> Sử dụng (r, θ, φ) để định vị</p>
+                <p><strong>✅ Hiệu ứng mượt mà:</strong> CSS transitions và transforms</p>
+                <p><strong>✅ Responsive design:</strong> Hoạt động tốt trên mọi thiết bị</p>
+                <p><strong>✅ Interactive elements:</strong> Hover và click effects</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="spherical-bg.js"></script>
+    
+    <script>
+        let isDemoVisible = true;
+        
+        // Setup demo toggle functionality
+        function setupDemoToggle() {
+            const toggleBtn = document.getElementById('toggleFormBtn');
+            const demoContainer = document.getElementById('demoContainer');
+            
+            // Toggle button click
+            toggleBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDemoVisibility();
+            });
+            
+            // Click outside demo to hide
+            document.addEventListener('click', function(e) {
+                if (isDemoVisible && 
+                    !demoContainer.contains(e.target) && 
+                    !toggleBtn.contains(e.target)) {
+                    hideDemo();
+                }
+            });
+            
+            // ESC key to hide demo
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isDemoVisible) {
+                    hideDemo();
+                }
+            });
+            
+            // Prevent demo clicks from bubbling
+            demoContainer.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
+        function toggleDemoVisibility() {
+            if (isDemoVisible) {
+                hideDemo();
+            } else {
+                showDemo();
+            }
+        }
+        
+        function hideDemo() {
+            const demoContainer = document.getElementById('demoContainer');
+            const toggleBtn = document.getElementById('toggleFormBtn');
+            
+            demoContainer.classList.add('hidden');
+            toggleBtn.textContent = 'Hiện Demo';
+            toggleBtn.classList.add('form-hidden');
+            isDemoVisible = false;
+            
+            // Change theme to focus on sphere
+            if (window.sphericalBackground && window.sphericalBackground.instance()) {
+                window.sphericalBackground.changeTheme('blue');
+            }
+            
+            showNotification('🌐 Đang xem quả cầu 3D - Click nút "Hiện Demo" để quay lại');
+        }
+        
+        function showDemo() {
+            const demoContainer = document.getElementById('demoContainer');
+            const toggleBtn = document.getElementById('toggleFormBtn');
+            
+            demoContainer.classList.remove('hidden');
+            toggleBtn.textContent = 'Ẩn Demo';
+            toggleBtn.classList.remove('form-hidden');
+            isDemoVisible = true;
+            
+            // Restore default theme
+            if (window.sphericalBackground && window.sphericalBackground.instance()) {
+                window.sphericalBackground.changeTheme('purple');
+            }
+        }
+        
+        // Demo functionality
+        function recreateSphere() {
+            const options = {
+                radius: 300 + Math.random() * 200,
+                rows: 8 + Math.floor(Math.random() * 8),
+                cols: 12 + Math.floor(Math.random() * 8),
+                imageSize: 40 + Math.random() * 40
+            };
+            
+            sphericalBackground.recreate(options);
+            
+            // Update stats
+            document.getElementById('imageCount').textContent = options.rows * options.cols;
+            
+            showNotification(`Sphere được tạo lại: ${options.rows}×${options.cols} hình ảnh`);
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 12px;
+                z-index: 1000;
+                font-weight: 600;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+                font-size: 14px;
+                line-height: 1.4;
+            `;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    notification.remove();
+                    style.remove();
+                }, 300);
+            }, 4000);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupDemoToggle();
+            
+            // Welcome message
+            setTimeout(() => {
+                showNotification('🎉 Chào mừng! Click ra ngoài để ẩn demo và xem quả cầu 3D');
+            }, 1000);
+            
+            // Auto demo effects
+            const themes = ['blue', 'purple', 'green'];
+            let currentTheme = 0;
+            
+            setInterval(() => {
+                if (!isDemoVisible) {
+                    currentTheme = (currentTheme + 1) % themes.length;
+                    sphericalBackground.changeTheme(themes[currentTheme]);
+                }
+            }, 8000);
+        });
+    </script>
+</body>
+</html>
