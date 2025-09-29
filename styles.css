@@ -12,6 +12,26 @@ body {
     background: url('anh-ma-tuy.jpg') center center/cover no-repeat fixed;
     min-height: 100vh;
     position: relative;
+    /* Fallback cho các thiết bị không hỗ trợ background-attachment: fixed */
+    background-attachment: fixed;
+}
+
+/* Responsive background cho mobile */
+@media (max-width: 768px) {
+    body {
+        /* Trên mobile, fixed background có thể gây lag, dùng scroll */
+        background-attachment: scroll;
+        /* Đảm bảo background cover toàn bộ viewport */
+        background-size: cover;
+        background-position: center center;
+    }
+}
+
+/* Responsive cho tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body {
+        background-attachment: scroll;
+    }
 }
 
 /* Overlay để làm mờ background và dễ đọc text */
@@ -22,8 +42,18 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
     z-index: 1;
     pointer-events: none;
+}
+
+/* Responsive overlay cho mobile */
+@media (max-width: 768px) {
+    body::before {
+        background: rgba(0, 0, 0, 0.5); /* Overlay đậm hơn cho mobile */
+        position: absolute; /* Dùng absolute thay vì fixed cho mobile */
+        min-height: 100vh;
+    }
 }
 
 .container {
@@ -33,6 +63,24 @@ body::before {
     position: relative;
     z-index: 10; /* Ensure content appears above background overlay */
     transition: all 0.5s ease;
+}
+
+/* Responsive container cho mobile */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 0 10px;
+        max-width: calc(100% - 20px);
+    }
+}
+
+/* Responsive container cho tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 18px;
+        margin: 0 15px;
+        max-width: calc(100% - 30px);
+    }
 }
 
 .container.hidden {
@@ -57,6 +105,27 @@ body::before {
     font-weight: bold;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
+}
+
+/* Responsive toggle button cho mobile */
+@media (max-width: 768px) {
+    .toggle-form-btn {
+        top: 15px;
+        right: 15px;
+        padding: 12px 16px;
+        font-size: 14px;
+        border-radius: 40px;
+    }
+}
+
+/* Responsive toggle button cho tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .toggle-form-btn {
+        top: 18px;
+        right: 18px;
+        padding: 13px 18px;
+        font-size: 15px;
+    }
 }
 
 .toggle-form-btn:hover {
@@ -142,11 +211,36 @@ header h1 {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* Responsive form container cho mobile */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+        border-radius: 12px;
+        margin: 10px 0;
+    }
+}
+
+/* Responsive form container cho tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .form-container {
+        padding: 30px;
+        border-radius: 13px;
+    }
+}
+
 .form-container h2 {
     color: #333;
     margin-bottom: 30px;
     border-bottom: 3px solid #d32f2f;
     padding-bottom: 10px;
+}
+
+/* Responsive h2 cho mobile */
+@media (max-width: 768px) {
+    .form-container h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
 }
 
 /* Input groups */
@@ -169,6 +263,35 @@ header h1 {
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Responsive input fields cho mobile */
+@media (max-width: 768px) {
+    .input-group input,
+    .input-group textarea {
+        padding: 10px 12px;
+        font-size: 16px; /* Giữ 16px để tránh zoom trên iOS */
+        border-radius: 6px;
+    }
+    
+    .input-group {
+        margin-bottom: 20px;
+    }
+    
+    .input-group label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+}
+
+/* Responsive input fields cho tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .input-group input,
+    .input-group textarea {
+        padding: 11px 14px;
+        font-size: 15px;
+    }
 }
 
 .input-group input:focus,
