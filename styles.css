@@ -19,18 +19,45 @@ body {
 /* Responsive background cho mobile */
 @media (max-width: 768px) {
     body {
-        /* Trên mobile, fixed background có thể gây lag, dùng scroll */
+        /* Trên mobile, thay bằng background gradient giống cờ đỏ sao vàng */
+        background: linear-gradient(135deg, #da020e 0%, #da020e 40%, #cc1e2d 60%, #b71c1c 100%);
         background-attachment: scroll;
-        /* Đảm bảo background cover toàn bộ viewport */
         background-size: cover;
         background-position: center center;
+        /* Thêm pattern để tạo texture */
+        background-image: 
+            radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.1) 0%, transparent 25%),
+            radial-gradient(circle at 75% 75%, rgba(255, 215, 0, 0.05) 0%, transparent 25%),
+            linear-gradient(135deg, #da020e 0%, #da020e 40%, #cc1e2d 60%, #b71c1c 100%);
     }
+    
+    /* Thêm pseudo-element để tạo sao vàng */
+    body::after {
+        content: '⭐';
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 8rem;
+        color: rgba(255, 215, 0, 0.1);
+        z-index: 0;
+        pointer-events: none;
+        animation: starPulse 4s ease-in-out infinite;
+    }
+}
+
+@keyframes starPulse {
+    0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.1); }
 }
 
 /* Responsive cho tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
     body {
+        /* Tablet vẫn dùng ảnh gốc nhưng scroll */
         background-attachment: scroll;
+        /* Có thể thêm fallback gradient nếu ảnh load chậm */
+        background-color: #da020e;
     }
 }
 
@@ -42,7 +69,6 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
     z-index: 1;
     pointer-events: none;
 }
@@ -50,7 +76,7 @@ body::before {
 /* Responsive overlay cho mobile */
 @media (max-width: 768px) {
     body::before {
-        background: rgba(0, 0, 0, 0.5); /* Overlay đậm hơn cho mobile */
+        background: rgba(0, 0, 0, 0.3); /* Overlay nhẹ hơn để giữ màu đỏ */
         position: absolute; /* Dùng absolute thay vì fixed cho mobile */
         min-height: 100vh;
     }
@@ -115,6 +141,15 @@ body::before {
         padding: 12px 16px;
         font-size: 14px;
         border-radius: 40px;
+        /* Theme đỏ vàng cho mobile */
+        background: linear-gradient(135deg, #da020e, #b71c1c);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+    }
+    
+    .toggle-form-btn.form-hidden {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        color: #b71c1c;
+        border: 2px solid rgba(218, 2, 14, 0.3);
     }
 }
 
@@ -441,6 +476,22 @@ input[type="file"]:hover {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+/* Responsive submit button cho mobile */
+@media (max-width: 768px) {
+    .submit-btn {
+        /* Theme đỏ vàng cho mobile */
+        background: linear-gradient(135deg, #da020e, #b71c1c);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        font-size: 16px;
+        padding: 12px 25px;
+    }
+    
+    .submit-btn:hover {
+        background: linear-gradient(135deg, #b71c1c, #da020e);
+        box-shadow: 0 5px 15px rgba(218, 2, 14, 0.4);
+    }
 }
 
 /* Success message */
