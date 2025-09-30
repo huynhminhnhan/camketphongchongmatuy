@@ -21,15 +21,15 @@
 
 .sphere-title h2 {
     color: #FFD700;
-    font-size: 36px; /* Tăng từ 24px lên 36px */
+    font-size: 28px; /* Giảm từ 36px xuống 28px */
     font-weight: bold;
     text-shadow: 
         2px 2px 4px rgba(0, 0, 0, 0.8),
         0 0 20px rgba(255, 215, 0, 0.5);
     margin: 0;
-    margin-bottom: 15px; /* Tăng margin */
+    margin-bottom: 12px; /* Giảm margin */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    letter-spacing: 2px; /* Tăng letter spacing */
+    letter-spacing: 1.5px; /* Giảm letter spacing */
     animation: titleGlow 3s ease-in-out infinite alternate;
 }
 
@@ -42,13 +42,13 @@
 
 .title-decoration .star {
     color: #FFD700;
-    font-size: 24px; /* Tăng từ 18px lên 24px */
+    font-size: 20px; /* Giảm từ 24px xuống 20px */
     animation: starTwinkle 2s ease-in-out infinite;
 }
 
 .title-decoration .line {
-    width: 100px; /* Tăng từ 60px lên 100px */
-    height: 3px; /* Tăng từ 2px lên 3px */
+    width: 80px; /* Giảm từ 100px xuống 80px */
+    height: 2px; /* Giảm từ 3px xuống 2px */
     background: linear-gradient(90deg, transparent, #FFD700, transparent);
     animation: lineGlow 2s ease-in-out infinite;
 }
@@ -87,6 +87,9 @@
     transition: all 0.3s ease;
     pointer-events: none;
     transform-origin: center;
+    /* Thêm padding để tạo khoảng cách */
+    padding: 4px 8px;
+    margin: 2px;
 }
 
 .floating-tag:hover {
@@ -99,23 +102,25 @@
 .floating-tag.sphere-tag {
     animation: none; /* Bỏ animation cũ */
     will-change: transform, opacity; /* Tối ưu performance */
+    /* Tăng khoảng cách letter spacing */
+    letter-spacing: 1px;
 }
 
-/* Các kích thước tag cho hình cầu full màn hình */
+/* Các kích thước tag phù hợp để dễ đọc */
 .floating-tag.size-small {
-    font-size: 24px; /* Tăng lên cho màn hình lớn */
+    font-size: 16px; /* Giảm từ 24px xuống 16px */
 }
 
 .floating-tag.size-medium {
-    font-size: 32px;
+    font-size: 20px; /* Giảm từ 32px xuống 20px */
 }
 
 .floating-tag.size-large {
-    font-size: 40px;
+    font-size: 24px; /* Giảm từ 40px xuống 24px */
 }
 
 .floating-tag.size-xlarge {
-    font-size: 48px;
+    font-size: 28px; /* Giảm từ 48px xuống 28px */
 }
 
 /* Animations cũ - đã được thay thế bằng sphere animation
@@ -154,34 +159,41 @@
 /* Responsive cho mobile */
 @media (max-width: 768px) {
     .sphere-title h2 {
-        font-size: 24px; /* Responsive cho mobile */
+        font-size: 20px; /* Giảm cho mobile */
         letter-spacing: 1px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
     
     .title-decoration .star {
-        font-size: 18px;
+        font-size: 16px;
     }
     
     .title-decoration .line {
-        width: 60px;
+        width: 50px;
         height: 2px;
     }
     
+    .floating-tag {
+        /* Tăng padding cho mobile */
+        padding: 3px 6px;
+        margin: 1.5px;
+        letter-spacing: 0.8px;
+    }
+    
     .floating-tag.size-small {
-        font-size: 16px; /* Responsive cho mobile */
+        font-size: 12px; /* Responsive cho mobile */
     }
     
     .floating-tag.size-medium {
-        font-size: 20px;
+        font-size: 15px;
     }
     
     .floating-tag.size-large {
-        font-size: 24px;
+        font-size: 18px;
     }
     
     .floating-tag.size-xlarge {
-        font-size: 28px;
+        font-size: 21px;
     }
     
     /* Giảm animation range cho mobile */

@@ -27,8 +27,8 @@ class TagCloudBackground {
         this.popupInterval = null;
         this.activePopups = [];
         
-        // Cấu hình hình cầu full màn hình
-        this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4; // 40% của màn hình
+        // Cấu hình hình cầu với kích thước vừa phải
+        this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.28; // Giảm từ 40% xuống 28%
         this.sphereCenter = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
         this.rotationSpeed = 0.008; // Giảm tốc độ xoay cho mượt hơn
         this.orbitSpeed = 0.003; // Giảm tốc độ di chuyển
@@ -73,7 +73,7 @@ class TagCloudBackground {
     }
     
     createTags() {
-        const numTags = Math.min(80, this.tags.length); // Tăng lên 80 tags cho hình cầu lớn
+        const numTags = Math.min(40, this.tags.length); // Giảm từ 60 xuống 40 tags để tạo khoảng cách
         
         for (let i = 0; i < numTags; i++) {
             const tag = this.createTag(i, numTags);
@@ -89,9 +89,9 @@ class TagCloudBackground {
         tag.className = 'floating-tag sphere-tag';
         tag.textContent = tagText;
         
-        // Tính toán vị trí trên hình cầu sử dụng tọa độ cầu
+        // Tính toán vị trí trên hình cầu sử dụng tọa độ cầu với phân bố đều hơn
         const phi = Math.acos(-1 + (2 * index) / totalTags); // Góc từ 0 đến π
-        const theta = Math.sqrt(totalTags * Math.PI) * phi;   // Góc từ 0 đến 2π
+        const theta = Math.sqrt(totalTags * Math.PI * 1.5) * phi;   // Tăng hệ số để tạo khoảng cách
         
         // Lưu tọa độ cầu ban đầu
         tag.sphereCoords = { phi, theta, index };
@@ -278,14 +278,14 @@ class TagCloudBackground {
         
         // Điều chỉnh radius cho responsive
         if (window.innerWidth <= 768) {
-            // Mobile: 35% của màn hình
-            this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.35;
+            // Mobile: 25% của màn hình
+            this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.25;
         } else if (window.innerWidth <= 1024) {
-            // Tablet: 38% của màn hình
-            this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.38;
+            // Tablet: 26% của màn hình
+            this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.26;
         } else {
-            // Desktop: 40% của màn hình
-            this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
+            // Desktop: 28% của màn hình
+            this.sphereRadius = Math.min(window.innerWidth, window.innerHeight) * 0.28;
         }
         
         // Cập nhật vị trí title ngay lập tức
