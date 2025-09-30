@@ -9,7 +9,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: url('anh-ma-tuy.jpg') center center/cover no-repeat fixed;
+    /* Background với overlay tối hơn để tag cloud hiển thị rõ */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('anh-ma-tuy.jpg') center center/cover no-repeat fixed;
     min-height: 100vh;
     position: relative;
     /* Fallback cho các thiết bị không hỗ trợ background-attachment: fixed */
@@ -62,6 +65,7 @@ body {
 }
 
 /* Overlay để làm mờ background và dễ đọc text */
+/* Đã được thay thế bằng overlay trong background image
 body::before {
     content: '';
     position: fixed;
@@ -69,18 +73,21 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
     z-index: 1;
     pointer-events: none;
 }
+*/
 
-/* Responsive overlay cho mobile */
+/* Responsive overlay cho mobile - Đã được comment vì có overlay trong background
 @media (max-width: 768px) {
     body::before {
-        background: rgba(0, 0, 0, 0.3); /* Overlay nhẹ hơn để giữ màu đỏ */
-        position: absolute; /* Dùng absolute thay vì fixed cho mobile */
+        background: rgba(0, 0, 0, 0.3);
+        position: absolute;
         min-height: 100vh;
     }
 }
+*/
 
 .container {
     max-width: 800px;
@@ -175,7 +182,7 @@ body::before {
 /* Header */
 header {
     text-align: center;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255);
     backdrop-filter: blur(15px);
     padding: 30px;
     border-radius: 15px;
